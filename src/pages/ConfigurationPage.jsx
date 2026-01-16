@@ -330,44 +330,143 @@ export default function ConfigurationPage() {
                   </p>
                 </div>
 
-                {/* Mini Book Preview */}
+                {/* Comprehensive Theme Preview */}
                 <div
-                  className="border-2 rounded-lg p-3"
+                  className="border-2 rounded-lg overflow-hidden"
                   style={{
                     filter: getMoodFilters(previewMood),
-                    fontFamily: "'Georgia', serif",
                     backgroundColor: currentSwatches?.surface || '#ffffff',
-                    borderColor: currentSwatches?.primary || '#e5e7eb',
-                    color: currentSwatches?.onSurface || '#374151',
+                    borderColor: currentSwatches?.outline || '#e5e7eb',
                   }}
                 >
+                  {/* Header/Navigation */}
                   <div
-                    className="text-xs font-bold mb-1"
-                    style={{ color: currentSwatches?.primary || '#374151' }}
+                    className="px-4 py-3 border-b"
+                    style={{
+                      backgroundColor: currentSwatches?.primaryContainer || '#f3f4f6',
+                      borderColor: currentSwatches?.outlineVariant || '#d1d5db',
+                      color: currentSwatches?.onPrimaryContainer || '#1f2937',
+                    }}
                   >
-                    Chapter 01
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-semibold text-sm">Story Editor</h4>
+                      <div className="flex gap-2">
+                        <div
+                          className="w-6 h-6 rounded"
+                          style={{ backgroundColor: currentSwatches?.secondary || '#6b7280' }}
+                        ></div>
+                        <div
+                          className="w-6 h-6 rounded"
+                          style={{ backgroundColor: currentSwatches?.tertiary || '#7c3aed' }}
+                        ></div>
+                      </div>
+                    </div>
                   </div>
-                  <div
-                    className="text-sm font-semibold mb-2"
-                    style={{ color: currentSwatches?.primary || '#374151' }}
-                  >
-                    The Peace Pond
-                  </div>
-                  <div
-                    className="text-xs leading-relaxed"
-                    style={{ color: currentSwatches?.onSurface || '#4b5563' }}
-                  >
-                    <p className="mb-2">
-                      The lake was still, like a glass mirror laid upon the earth,
-                      reflecting the pale blush of dawn. Mist rose from the surface
-                      in soft ribbons, drifting lazily as if unsure whether to rise
-                      or rest.
+
+                  {/* Content Area */}
+                  <div className="p-4">
+                    {/* Title */}
+                    <h1
+                      className="text-lg font-bold mb-2"
+                      style={{ color: currentSwatches?.onSurface || '#111827' }}
+                    >
+                      The Peace Pond
+                    </h1>
+
+                    {/* Chapter */}
+                    <h2
+                      className="text-sm font-semibold mb-3 uppercase tracking-wide"
+                      style={{ color: currentSwatches?.primary || '#3b82f6' }}
+                    >
+                      Chapter 01
+                    </h2>
+
+                    {/* Sample Text */}
+                    <p
+                      className="text-sm leading-relaxed mb-4"
+                      style={{ color: currentSwatches?.onSurfaceVariant || '#6b7280' }}
+                    >
+                      The lake was still, like a glass mirror laid upon the earth, reflecting the pale blush of dawn. Mist rose from the surface in soft ribbons, drifting lazily as if unsure whether to rise or rest.
                     </p>
-                    <p>
-                      A swan emerged from the morning fog. At first, it was only a
-                      shape — a blur of white moving slowly through the gray veil
-                      of mist. Then, as the sunlight broke through the clouds...
-                    </p>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-2 mb-4">
+                      <button
+                        className="px-3 py-1 rounded text-xs font-medium"
+                        style={{
+                          backgroundColor: currentSwatches?.primary || '#3b82f6',
+                          color: currentSwatches?.onPrimary || '#ffffff',
+                        }}
+                      >
+                        Continue Reading
+                      </button>
+                      <button
+                        className="px-3 py-1 rounded text-xs font-medium border"
+                        style={{
+                          backgroundColor: currentSwatches?.surface || '#ffffff',
+                          borderColor: currentSwatches?.outline || '#d1d5db',
+                          color: currentSwatches?.primary || '#3b82f6',
+                        }}
+                      >
+                        Save Progress
+                      </button>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                      <div
+                        className="h-2 rounded-full"
+                        style={{
+                          width: '65%',
+                          backgroundColor: currentSwatches?.secondary || '#6b7280',
+                        }}
+                      ></div>
+                    </div>
+
+                    {/* Cards/Sections */}
+                    <div className="space-y-3">
+                      <div
+                        className="p-3 rounded-lg border"
+                        style={{
+                          backgroundColor: currentSwatches?.surfaceVariant || '#f9fafb',
+                          borderColor: currentSwatches?.outlineVariant || '#e5e7eb',
+                        }}
+                      >
+                        <h3
+                          className="font-medium text-sm mb-1"
+                          style={{ color: currentSwatches?.onSurfaceVariant || '#374151' }}
+                        >
+                          Story Notes
+                        </h3>
+                        <p
+                          className="text-xs"
+                          style={{ color: currentSwatches?.onSurfaceVariant || '#6b7280' }}
+                        >
+                          Peaceful atmosphere with natural elements...
+                        </p>
+                      </div>
+
+                      <div
+                        className="p-3 rounded-lg border"
+                        style={{
+                          backgroundColor: currentSwatches?.tertiaryContainer || '#f3e8ff',
+                          borderColor: currentSwatches?.outlineVariant || '#e5e7eb',
+                        }}
+                      >
+                        <h3
+                          className="font-medium text-sm mb-1"
+                          style={{ color: currentSwatches?.onTertiaryContainer || '#581c87' }}
+                        >
+                          Character Focus
+                        </h3>
+                        <p
+                          className="text-xs"
+                          style={{ color: currentSwatches?.onTertiaryContainer || '#7c3aed' }}
+                        >
+                          Swan as a symbol of tranquility and grace...
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -394,36 +493,122 @@ export default function ConfigurationPage() {
                   {currentSwatches && (
                     <div>
                       <h4 className="font-medium text-gray-900 text-sm mb-2">
-                        Theme Colors:
+                        Material Design Colors Used:
                       </h4>
-                      <div className="grid grid-cols-2 gap-1">
+                      <div className="grid grid-cols-2 gap-1 text-xs">
+                        {/* Core Colors */}
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
                             style={{ backgroundColor: currentSwatches.primary }}
                           ></div>
-                          <span className="text-xs text-gray-600">Primary</span>
+                          <span>Primary</span>
                         </div>
+                        <div className="flex items-center gap-1">
+                          <div
+                            className="w-3 h-3 rounded border"
+                            style={{ backgroundColor: currentSwatches.onPrimary }}
+                          ></div>
+                          <span>On Primary</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div
+                            className="w-3 h-3 rounded border"
+                            style={{ backgroundColor: currentSwatches.primaryContainer }}
+                          ></div>
+                          <span>Primary Container</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div
+                            className="w-3 h-3 rounded border"
+                            style={{ backgroundColor: currentSwatches.onPrimaryContainer }}
+                          ></div>
+                          <span>On Primary Container</span>
+                        </div>
+
+                        {/* Secondary Colors */}
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
                             style={{ backgroundColor: currentSwatches.secondary }}
                           ></div>
-                          <span className="text-xs text-gray-600">Secondary</span>
+                          <span>Secondary</span>
                         </div>
+                        <div className="flex items-center gap-1">
+                          <div
+                            className="w-3 h-3 rounded border"
+                            style={{ backgroundColor: currentSwatches.tertiary }}
+                          ></div>
+                          <span>Tertiary</span>
+                        </div>
+
+                        {/* Surface Colors */}
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
                             style={{ backgroundColor: currentSwatches.surface }}
                           ></div>
-                          <span className="text-xs text-gray-600">Surface</span>
+                          <span>Surface</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div
+                            className="w-3 h-3 rounded border"
+                            style={{ backgroundColor: currentSwatches.surfaceVariant }}
+                          ></div>
+                          <span>Surface Variant</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
                             style={{ backgroundColor: currentSwatches.onSurface }}
                           ></div>
-                          <span className="text-xs text-gray-600">On Surface</span>
+                          <span>On Surface</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div
+                            className="w-3 h-3 rounded border"
+                            style={{ backgroundColor: currentSwatches.onSurfaceVariant }}
+                          ></div>
+                          <span>On Surface Variant</span>
+                        </div>
+
+                        {/* Container Colors */}
+                        <div className="flex items-center gap-1">
+                          <div
+                            className="w-3 h-3 rounded border"
+                            style={{ backgroundColor: currentSwatches.secondaryContainer }}
+                          ></div>
+                          <span>Secondary Container</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div
+                            className="w-3 h-3 rounded border"
+                            style={{ backgroundColor: currentSwatches.tertiaryContainer }}
+                          ></div>
+                          <span>Tertiary Container</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div
+                            className="w-3 h-3 rounded border"
+                            style={{ backgroundColor: currentSwatches.onTertiaryContainer }}
+                          ></div>
+                          <span>On Tertiary Container</span>
+                        </div>
+
+                        {/* Outline Colors */}
+                        <div className="flex items-center gap-1">
+                          <div
+                            className="w-3 h-3 rounded border"
+                            style={{ backgroundColor: currentSwatches.outline }}
+                          ></div>
+                          <span>Outline</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div
+                            className="w-3 h-3 rounded border"
+                            style={{ backgroundColor: currentSwatches.outlineVariant }}
+                          ></div>
+                          <span>Outline Variant</span>
                         </div>
                       </div>
                     </div>

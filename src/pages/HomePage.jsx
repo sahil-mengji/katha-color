@@ -78,6 +78,7 @@ export default function HomePage() {
             fontSize={fontSize}
             selectedFont={selectedFont}
             selectedBorder={selectedBorder}
+            swatches={swatches}
           />
         </div>
       </div>
