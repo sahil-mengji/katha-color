@@ -1,18 +1,18 @@
-import { useState, useCallback, useEffect } from 'react';
-import ControlsPanel from '../components/ControlsPanel';
-import BookPage from '../components/BookFrame';
-import { useMaterialTheme } from '../hooks/useMaterialTheme';
-import { useTheme } from '../hooks/useTheme';
-import { applyMoodToDocument } from '../utils/moodPresets';
+import { useState, useCallback, useEffect } from "react";
+import ControlsPanel from "../components/ControlsPanel";
+import BookPage from "../components/BookFrame";
+import { useMaterialTheme } from "../hooks/useMaterialTheme";
+import { useTheme } from "../hooks/useTheme";
+import { applyMoodToDocument } from "../utils/moodPresets";
 
 export default function HomePage() {
   const [imageUrl, setImageUrl] = useState(null);
   const [fontSize, setFontSize] = useState(16);
-  const [selectedFont, setSelectedFont] = useState('georgia');
-  const [selectedMood, setSelectedMood] = useState('default');
-  const [selectedBorder, setSelectedBorder] = useState('classic');
+  const [selectedFont, setSelectedFont] = useState("georgia");
+  const [selectedMood, setSelectedMood] = useState("default");
+  const [selectedBorder, setSelectedBorder] = useState("classic");
   const [isDarkMode, setIsDarkMode] = useState(false);
-  
+
   const { extractThemeFromImage, isLoading, getSwatches } = useMaterialTheme();
   const { updateTheme } = useTheme();
 
@@ -24,27 +24,30 @@ export default function HomePage() {
   // Apply dark mode class to document
   useEffect(() => {
     if (isDarkMode) {
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
     }
   }, [isDarkMode]);
 
-  const handleImageSelect = useCallback(async (file) => {
-    const url = URL.createObjectURL(file);
-    setImageUrl(url);
-    
-    // Create image element and extract theme
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.src = url;
-    img.onload = async () => {
-      await extractThemeFromImage(img);
-      // Update theme context with new swatches
-      const swatches = getSwatches();
-      updateTheme(swatches, url);
-    };
-  }, [extractThemeFromImage, getSwatches, updateTheme]);
+  const handleImageSelect = useCallback(
+    async (file) => {
+      const url = URL.createObjectURL(file);
+      setImageUrl(url);
+
+      // Create image element and extract theme
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = url;
+      img.onload = async () => {
+        await extractThemeFromImage(img);
+        // Update theme context with new swatches
+        const swatches = getSwatches();
+        updateTheme(swatches, url);
+      };
+    },
+    [extractThemeFromImage, getSwatches, updateTheme]
+  );
 
   const swatches = getSwatches();
 
@@ -74,7 +77,7 @@ export default function HomePage() {
 
         {/* Book Page - Right 3/4 with gaps */}
         <div className="flex-1 h-screen flex items-center justify-center py-8 px-12 overflow-hidden">
-          <BookPage 
+          <BookPage
             fontSize={fontSize}
             selectedFont={selectedFont}
             selectedBorder={selectedBorder}

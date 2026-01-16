@@ -1,8 +1,8 @@
 import "./index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from './hooks/useTheme';
-import HomePage from './pages/HomePage'
-import ConfigurationPage from './pages/ConfigurationPage'
+import { ThemeProvider } from "./hooks/useTheme";
+import HomePage from "./pages/HomePage";
+import ConfigurationPage from "./pages/ConfigurationPage";
 
 function App() {
   return (

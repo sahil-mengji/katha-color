@@ -147,58 +147,128 @@ export default function ConfigurationPage() {
               Edit Mood Parameters
             </h2>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {moods.map((mood) => {
-            const moodData = getMoodData(mood.id);
-            const isCustom = customMoods[mood.id];
-            const isPreviewing = previewMood === mood.id;
+              {moods.map((mood) => {
+                const moodData = getMoodData(mood.id);
+                const isCustom = customMoods[mood.id];
+                const isPreviewing = previewMood === mood.id;
 
-            return (
-              <div
-                key={mood.id}
-                className={`bg-white rounded-lg border p-6 cursor-pointer transition-all ${
-                  isPreviewing
-                    ? "border-blue-500 ring-2 ring-blue-200"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-                onClick={() => setPreviewMood(mood.id)}
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {mood.label}
-                  </h3>
-                  <div className="flex items-center gap-2">
-                    {isCustom && (
-                      <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
-                        Custom
-                      </span>
-                    )}
-                    {isPreviewing && (
-                      <Eye className="w-4 h-4 text-blue-600" />
-                    )}
-                  </div>
-                </div>
+                return (
+                  <div
+                    key={mood.id}
+                    className={`bg-white rounded-lg border p-6 cursor-pointer transition-all ${
+                      isPreviewing
+                        ? "border-blue-500 ring-2 ring-blue-200"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                    onClick={() => setPreviewMood(mood.id)}
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-lg font-semibold text-gray-900">
+                        {mood.label}
+                      </h3>
+                      <div className="flex items-center gap-2">
+                        {isCustom && (
+                          <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                            Custom
+                          </span>
+                        )}
+                        {isPreviewing && (
+                          <Eye className="w-4 h-4 text-blue-600" />
+                        )}
+                      </div>
+                    </div>
 
-                <p className="text-sm text-gray-600 mb-4">{mood.description}</p>
+                    <p className="text-sm text-gray-600 mb-4">
+                      {mood.description}
+                    </p>
 
-                <div className="space-y-4">
-                  {/* Filters */}
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Filters</h4>
-                    <div className="space-y-3">
+                    <div className="space-y-4">
+                      {/* Filters */}
                       <div>
-                        <label className="block text-sm text-gray-600 mb-1">
-                          Brightness: {moodData.filters.brightness}
+                        <h4 className="font-medium text-gray-900 mb-2">
+                          Filters
+                        </h4>
+                        <div className="space-y-3">
+                          <div>
+                            <label className="block text-sm text-gray-600 mb-1">
+                              Brightness: {moodData.filters.brightness}
+                            </label>
+                            <input
+                              type="range"
+                              min="0.1"
+                              max="2.0"
+                              step="0.05"
+                              value={moodData.filters.brightness}
+                              onChange={(e) =>
+                                updateMoodParameter(
+                                  mood.id,
+                                  "filters.brightness",
+                                  e.target.value
+                                )
+                              }
+                              className="w-full"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm text-gray-600 mb-1">
+                              Contrast: {moodData.filters.contrast}
+                            </label>
+                            <input
+                              type="range"
+                              min="0.1"
+                              max="2.0"
+                              step="0.05"
+                              value={moodData.filters.contrast}
+                              onChange={(e) =>
+                                updateMoodParameter(
+                                  mood.id,
+                                  "filters.contrast",
+                                  e.target.value
+                                )
+                              }
+                              className="w-full"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block text-sm text-gray-600 mb-1">
+                              Saturation: {moodData.filters.saturate}
+                            </label>
+                            <input
+                              type="range"
+                              min="0.1"
+                              max="2.0"
+                              step="0.05"
+                              value={moodData.filters.saturate}
+                              onChange={(e) =>
+                                updateMoodParameter(
+                                  mood.id,
+                                  "filters.saturate",
+                                  e.target.value
+                                )
+                              }
+                              className="w-full"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Tone Shift */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Tone Shift: {moodData.toneShift || 0}
                         </label>
                         <input
                           type="range"
-                          min="0.1"
-                          max="2.0"
-                          step="0.05"
-                          value={moodData.filters.brightness}
+                          min="-50"
+                          max="50"
+                          step="1"
+                          value={moodData.toneShift || 0}
                           onChange={(e) =>
                             updateMoodParameter(
                               mood.id,
-                              "filters.brightness",
+                              "toneShift",
                               e.target.value
                             )
                           }
@@ -206,41 +276,21 @@ export default function ConfigurationPage() {
                         />
                       </div>
 
+                      {/* Hue Rotate */}
                       <div>
-                        <label className="block text-sm text-gray-600 mb-1">
-                          Contrast: {moodData.filters.contrast}
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Hue Rotate: {moodData.hueRotate || 0}°
                         </label>
                         <input
                           type="range"
-                          min="0.1"
-                          max="2.0"
-                          step="0.05"
-                          value={moodData.filters.contrast}
+                          min="-180"
+                          max="180"
+                          step="5"
+                          value={moodData.hueRotate || 0}
                           onChange={(e) =>
                             updateMoodParameter(
                               mood.id,
-                              "filters.contrast",
-                              e.target.value
-                            )
-                          }
-                          className="w-full"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm text-gray-600 mb-1">
-                          Saturation: {moodData.filters.saturate}
-                        </label>
-                        <input
-                          type="range"
-                          min="0.1"
-                          max="2.0"
-                          step="0.05"
-                          value={moodData.filters.saturate}
-                          onChange={(e) =>
-                            updateMoodParameter(
-                              mood.id,
-                              "filters.saturate",
+                              "hueRotate",
                               e.target.value
                             )
                           }
@@ -249,55 +299,9 @@ export default function ConfigurationPage() {
                       </div>
                     </div>
                   </div>
-
-                  {/* Tone Shift */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tone Shift: {moodData.toneShift || 0}
-                    </label>
-                    <input
-                      type="range"
-                      min="-50"
-                      max="50"
-                      step="1"
-                      value={moodData.toneShift || 0}
-                      onChange={(e) =>
-                        updateMoodParameter(
-                          mood.id,
-                          "toneShift",
-                          e.target.value
-                        )
-                      }
-                      className="w-full"
-                    />
-                  </div>
-
-                  {/* Hue Rotate */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Hue Rotate: {moodData.hueRotate || 0}°
-                    </label>
-                    <input
-                      type="range"
-                      min="-180"
-                      max="180"
-                      step="5"
-                      value={moodData.hueRotate || 0}
-                      onChange={(e) =>
-                        updateMoodParameter(
-                          mood.id,
-                          "hueRotate",
-                          e.target.value
-                        )
-                      }
-                      className="w-full"
-                    />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-          </div>
+                );
+              })}
+            </div>
           </div>
 
           {/* Preview Panel */}
@@ -326,7 +330,8 @@ export default function ConfigurationPage() {
                     {MOOD_PRESETS[previewMood]?.label || "Default"}
                   </h3>
                   <p className="text-sm text-gray-600">
-                    {MOOD_PRESETS[previewMood]?.description || "Pure extracted colors"}
+                    {MOOD_PRESETS[previewMood]?.description ||
+                      "Pure extracted colors"}
                   </p>
                 </div>
 
@@ -335,17 +340,18 @@ export default function ConfigurationPage() {
                   className="border-2 rounded-lg overflow-hidden"
                   style={{
                     filter: getMoodFilters(previewMood),
-                    backgroundColor: currentSwatches?.surface || '#ffffff',
-                    borderColor: currentSwatches?.outline || '#e5e7eb',
+                    backgroundColor: currentSwatches?.surface || "#ffffff",
+                    borderColor: currentSwatches?.outline || "#e5e7eb",
                   }}
                 >
                   {/* Header/Navigation */}
                   <div
                     className="px-4 py-3 border-b"
                     style={{
-                      backgroundColor: currentSwatches?.primaryContainer || '#f3f4f6',
-                      borderColor: currentSwatches?.outlineVariant || '#d1d5db',
-                      color: currentSwatches?.onPrimaryContainer || '#1f2937',
+                      backgroundColor:
+                        currentSwatches?.primaryContainer || "#f3f4f6",
+                      borderColor: currentSwatches?.outlineVariant || "#d1d5db",
+                      color: currentSwatches?.onPrimaryContainer || "#1f2937",
                     }}
                   >
                     <div className="flex items-center justify-between">
@@ -353,11 +359,17 @@ export default function ConfigurationPage() {
                       <div className="flex gap-2">
                         <div
                           className="w-6 h-6 rounded"
-                          style={{ backgroundColor: currentSwatches?.secondary || '#6b7280' }}
+                          style={{
+                            backgroundColor:
+                              currentSwatches?.secondary || "#6b7280",
+                          }}
                         ></div>
                         <div
                           className="w-6 h-6 rounded"
-                          style={{ backgroundColor: currentSwatches?.tertiary || '#7c3aed' }}
+                          style={{
+                            backgroundColor:
+                              currentSwatches?.tertiary || "#7c3aed",
+                          }}
                         ></div>
                       </div>
                     </div>
@@ -368,7 +380,7 @@ export default function ConfigurationPage() {
                     {/* Title */}
                     <h1
                       className="text-lg font-bold mb-2"
-                      style={{ color: currentSwatches?.onSurface || '#111827' }}
+                      style={{ color: currentSwatches?.onSurface || "#111827" }}
                     >
                       The Peace Pond
                     </h1>
@@ -376,7 +388,7 @@ export default function ConfigurationPage() {
                     {/* Chapter */}
                     <h2
                       className="text-sm font-semibold mb-3 uppercase tracking-wide"
-                      style={{ color: currentSwatches?.primary || '#3b82f6' }}
+                      style={{ color: currentSwatches?.primary || "#3b82f6" }}
                     >
                       Chapter 01
                     </h2>
@@ -384,9 +396,14 @@ export default function ConfigurationPage() {
                     {/* Sample Text */}
                     <p
                       className="text-sm leading-relaxed mb-4"
-                      style={{ color: currentSwatches?.onSurfaceVariant || '#6b7280' }}
+                      style={{
+                        color: currentSwatches?.onSurfaceVariant || "#6b7280",
+                      }}
                     >
-                      The lake was still, like a glass mirror laid upon the earth, reflecting the pale blush of dawn. Mist rose from the surface in soft ribbons, drifting lazily as if unsure whether to rise or rest.
+                      The lake was still, like a glass mirror laid upon the
+                      earth, reflecting the pale blush of dawn. Mist rose from
+                      the surface in soft ribbons, drifting lazily as if unsure
+                      whether to rise or rest.
                     </p>
 
                     {/* Action Buttons */}
@@ -394,8 +411,9 @@ export default function ConfigurationPage() {
                       <button
                         className="px-3 py-1 rounded text-xs font-medium"
                         style={{
-                          backgroundColor: currentSwatches?.primary || '#3b82f6',
-                          color: currentSwatches?.onPrimary || '#ffffff',
+                          backgroundColor:
+                            currentSwatches?.primary || "#3b82f6",
+                          color: currentSwatches?.onPrimary || "#ffffff",
                         }}
                       >
                         Continue Reading
@@ -403,9 +421,10 @@ export default function ConfigurationPage() {
                       <button
                         className="px-3 py-1 rounded text-xs font-medium border"
                         style={{
-                          backgroundColor: currentSwatches?.surface || '#ffffff',
-                          borderColor: currentSwatches?.outline || '#d1d5db',
-                          color: currentSwatches?.primary || '#3b82f6',
+                          backgroundColor:
+                            currentSwatches?.surface || "#ffffff",
+                          borderColor: currentSwatches?.outline || "#d1d5db",
+                          color: currentSwatches?.primary || "#3b82f6",
                         }}
                       >
                         Save Progress
@@ -417,8 +436,9 @@ export default function ConfigurationPage() {
                       <div
                         className="h-2 rounded-full"
                         style={{
-                          width: '65%',
-                          backgroundColor: currentSwatches?.secondary || '#6b7280',
+                          width: "65%",
+                          backgroundColor:
+                            currentSwatches?.secondary || "#6b7280",
                         }}
                       ></div>
                     </div>
@@ -428,19 +448,27 @@ export default function ConfigurationPage() {
                       <div
                         className="p-3 rounded-lg border"
                         style={{
-                          backgroundColor: currentSwatches?.surfaceVariant || '#f9fafb',
-                          borderColor: currentSwatches?.outlineVariant || '#e5e7eb',
+                          backgroundColor:
+                            currentSwatches?.surfaceVariant || "#f9fafb",
+                          borderColor:
+                            currentSwatches?.outlineVariant || "#e5e7eb",
                         }}
                       >
                         <h3
                           className="font-medium text-sm mb-1"
-                          style={{ color: currentSwatches?.onSurfaceVariant || '#374151' }}
+                          style={{
+                            color:
+                              currentSwatches?.onSurfaceVariant || "#374151",
+                          }}
                         >
                           Story Notes
                         </h3>
                         <p
                           className="text-xs"
-                          style={{ color: currentSwatches?.onSurfaceVariant || '#6b7280' }}
+                          style={{
+                            color:
+                              currentSwatches?.onSurfaceVariant || "#6b7280",
+                          }}
                         >
                           Peaceful atmosphere with natural elements...
                         </p>
@@ -449,19 +477,27 @@ export default function ConfigurationPage() {
                       <div
                         className="p-3 rounded-lg border"
                         style={{
-                          backgroundColor: currentSwatches?.tertiaryContainer || '#f3e8ff',
-                          borderColor: currentSwatches?.outlineVariant || '#e5e7eb',
+                          backgroundColor:
+                            currentSwatches?.tertiaryContainer || "#f3e8ff",
+                          borderColor:
+                            currentSwatches?.outlineVariant || "#e5e7eb",
                         }}
                       >
                         <h3
                           className="font-medium text-sm mb-1"
-                          style={{ color: currentSwatches?.onTertiaryContainer || '#581c87' }}
+                          style={{
+                            color:
+                              currentSwatches?.onTertiaryContainer || "#581c87",
+                          }}
                         >
                           Character Focus
                         </h3>
                         <p
                           className="text-xs"
-                          style={{ color: currentSwatches?.onTertiaryContainer || '#7c3aed' }}
+                          style={{
+                            color:
+                              currentSwatches?.onTertiaryContainer || "#7c3aed",
+                          }}
                         >
                           Swan as a symbol of tranquility and grace...
                         </p>
@@ -507,21 +543,28 @@ export default function ConfigurationPage() {
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
-                            style={{ backgroundColor: currentSwatches.onPrimary }}
+                            style={{
+                              backgroundColor: currentSwatches.onPrimary,
+                            }}
                           ></div>
                           <span>On Primary</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
-                            style={{ backgroundColor: currentSwatches.primaryContainer }}
+                            style={{
+                              backgroundColor: currentSwatches.primaryContainer,
+                            }}
                           ></div>
                           <span>Primary Container</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
-                            style={{ backgroundColor: currentSwatches.onPrimaryContainer }}
+                            style={{
+                              backgroundColor:
+                                currentSwatches.onPrimaryContainer,
+                            }}
                           ></div>
                           <span>On Primary Container</span>
                         </div>
@@ -530,14 +573,18 @@ export default function ConfigurationPage() {
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
-                            style={{ backgroundColor: currentSwatches.secondary }}
+                            style={{
+                              backgroundColor: currentSwatches.secondary,
+                            }}
                           ></div>
                           <span>Secondary</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
-                            style={{ backgroundColor: currentSwatches.tertiary }}
+                            style={{
+                              backgroundColor: currentSwatches.tertiary,
+                            }}
                           ></div>
                           <span>Tertiary</span>
                         </div>
@@ -553,21 +600,27 @@ export default function ConfigurationPage() {
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
-                            style={{ backgroundColor: currentSwatches.surfaceVariant }}
+                            style={{
+                              backgroundColor: currentSwatches.surfaceVariant,
+                            }}
                           ></div>
                           <span>Surface Variant</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
-                            style={{ backgroundColor: currentSwatches.onSurface }}
+                            style={{
+                              backgroundColor: currentSwatches.onSurface,
+                            }}
                           ></div>
                           <span>On Surface</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
-                            style={{ backgroundColor: currentSwatches.onSurfaceVariant }}
+                            style={{
+                              backgroundColor: currentSwatches.onSurfaceVariant,
+                            }}
                           ></div>
                           <span>On Surface Variant</span>
                         </div>
@@ -576,21 +629,30 @@ export default function ConfigurationPage() {
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
-                            style={{ backgroundColor: currentSwatches.secondaryContainer }}
+                            style={{
+                              backgroundColor:
+                                currentSwatches.secondaryContainer,
+                            }}
                           ></div>
                           <span>Secondary Container</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
-                            style={{ backgroundColor: currentSwatches.tertiaryContainer }}
+                            style={{
+                              backgroundColor:
+                                currentSwatches.tertiaryContainer,
+                            }}
                           ></div>
                           <span>Tertiary Container</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
-                            style={{ backgroundColor: currentSwatches.onTertiaryContainer }}
+                            style={{
+                              backgroundColor:
+                                currentSwatches.onTertiaryContainer,
+                            }}
                           ></div>
                           <span>On Tertiary Container</span>
                         </div>
@@ -606,7 +668,9 @@ export default function ConfigurationPage() {
                         <div className="flex items-center gap-1">
                           <div
                             className="w-3 h-3 rounded border"
-                            style={{ backgroundColor: currentSwatches.outlineVariant }}
+                            style={{
+                              backgroundColor: currentSwatches.outlineVariant,
+                            }}
                           ></div>
                           <span>Outline Variant</span>
                         </div>
