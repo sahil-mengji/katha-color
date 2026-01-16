@@ -1,31 +1,41 @@
-import { useState } from 'react';
-import { Moon, Sun, Palette as PaletteIcon } from 'lucide-react';
-import ImageUpload from './ImageUpload';
-import ColorSwatches from './ColorSwatches';
-import ColorPreviewGrid from './ColorPreviewGrid';
-import { MOOD_PRESETS } from '../utils/moodPresets';
+import { useState } from "react";
+import { Moon, Sun, Palette as PaletteIcon, Settings } from "lucide-react";
+import { Link } from "react-router-dom";
+import ImageUpload from "./ImageUpload";
+import ColorSwatches from "./ColorSwatches";
+import ColorPreviewGrid from "./ColorPreviewGrid";
+import { MOOD_PRESETS } from "../utils/moodPresets";
 
 const FONTS = [
-  { id: 'georgia', name: 'Georgia', family: "'Georgia', serif" },
-  { id: 'times', name: 'Times', family: "'Times New Roman', serif" },
-  { id: 'lora', name: 'Lora', family: "'Lora', serif" },
-  { id: 'merriweather', name: 'Merriweather', family: "'Merriweather', serif" },
-  { id: 'garamond', name: 'Garamond', family: "'EB Garamond', serif" },
-  { id: 'playfair', name: 'Playfair', family: "'Playfair Display', serif" },
-  { id: 'crimson', name: 'Crimson', family: "'Crimson Text', serif" },
-  { id: 'libre', name: 'Libre', family: "'Libre Baskerville', serif" },
+  { id: "georgia", name: "Georgia", family: "'Georgia', serif" },
+  { id: "times", name: "Times", family: "'Times New Roman', serif" },
+  { id: "lora", name: "Lora", family: "'Lora', serif" },
+  { id: "merriweather", name: "Merriweather", family: "'Merriweather', serif" },
+  { id: "garamond", name: "Garamond", family: "'EB Garamond', serif" },
+  { id: "playfair", name: "Playfair", family: "'Playfair Display', serif" },
+  { id: "crimson", name: "Crimson", family: "'Crimson Text', serif" },
+  { id: "libre", name: "Libre", family: "'Libre Baskerville', serif" },
+  { id: "roboto", name: "Roboto", family: "'Roboto', sans-serif" },
+  { id: "open-sans", name: "Open Sans", family: "'Open Sans', sans-serif" },
+  { id: "lato", name: "Lato", family: "'Lato', sans-serif" },
+  { id: "montserrat", name: "Montserrat", family: "'Montserrat', sans-serif" },
+  {
+    id: "source-sans",
+    name: "Source Sans",
+    family: "'Source Sans Pro', sans-serif",
+  },
 ];
 
 const BORDERS = [
-  { id: 'none', name: 'None', icon: '○' },
-  { id: 'classic', name: 'Classic', icon: '▣' },
-  { id: 'ornate', name: 'Ornate', icon: '❧' },
-  { id: 'minimal', name: 'Minimal', icon: '□' },
-  { id: 'rounded', name: 'Rounded', icon: '◯' },
-  { id: 'ancient', name: 'Ancient', icon: '⌘' },
-  { id: 'gradient', name: 'Gradient', icon: '◈' },
-  { id: 'bevel', name: 'Bevel', icon: '◆' },
-  { id: 'double', name: 'Double', icon: '▤' },
+  { id: "none", name: "None", icon: "○" },
+  { id: "classic", name: "Classic", icon: "▣" },
+  { id: "ornate", name: "Ornate", icon: "❧" },
+  { id: "minimal", name: "Minimal", icon: "□" },
+  { id: "rounded", name: "Rounded", icon: "◯" },
+  { id: "ancient", name: "Ancient", icon: "⌘" },
+  { id: "gradient", name: "Gradient", icon: "◈" },
+  { id: "bevel", name: "Bevel", icon: "◆" },
+  { id: "double", name: "Double", icon: "▤" },
 ];
 
 // All moods for display
@@ -58,21 +68,41 @@ export default function ControlsPanel({
           onClick={onDarkModeToggle}
           className="flex items-center gap-2 px-3 py-2 rounded-lg border transition-all"
           style={{
-            backgroundColor: isDarkMode ? 'var(--theme-bg-book)' : 'white',
-            borderColor: 'var(--md-sys-color-outline-variant)',
-            color: 'var(--theme-content)',
+            backgroundColor: isDarkMode ? "var(--theme-bg-book)" : "white",
+            borderColor: "var(--md-sys-color-outline-variant)",
+            color: "var(--theme-content)",
           }}
         >
-          {isDarkMode ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
-          <span className="text-sm">{isDarkMode ? 'Dark' : 'Light'}</span>
+          {isDarkMode ? (
+            <Moon className="w-4 h-4" />
+          ) : (
+            <Sun className="w-4 h-4" />
+          )}
+          <span className="text-sm">{isDarkMode ? "Dark" : "Light"}</span>
         </button>
+      </div>
+
+      {/* Settings Link */}
+      <div className="control-section">
+        <Link
+          to="/config"
+          className="flex items-center gap-2 px-3 py-2 rounded-lg border transition-all w-full text-left"
+          style={{
+            backgroundColor: "white",
+            borderColor: "var(--md-sys-color-outline-variant)",
+            color: "var(--theme-content)",
+          }}
+        >
+          <Settings className="w-4 h-4" />
+          <span className="text-sm">Mood Configuration</span>
+        </Link>
       </div>
 
       {/* Image Upload */}
       <div className="control-section">
         <label className="control-label">Cover Image</label>
-        <ImageUpload 
-          imageUrl={imageUrl} 
+        <ImageUpload
+          imageUrl={imageUrl}
           onImageSelect={onImageSelect}
           isLoading={isLoading}
         />
@@ -94,18 +124,22 @@ export default function ControlsPanel({
             onClick={() => setShowColorPreview(!showColorPreview)}
             className="flex items-center gap-1 text-xs px-2 py-1 rounded-md transition-all"
             style={{
-              backgroundColor: showColorPreview ? 'var(--theme-border)' : 'transparent',
-              color: showColorPreview ? 'var(--md-sys-color-on-primary)' : 'var(--theme-content)',
-              border: '1px solid var(--md-sys-color-outline-variant)',
+              backgroundColor: showColorPreview
+                ? "var(--theme-border)"
+                : "transparent",
+              color: showColorPreview
+                ? "var(--md-sys-color-on-primary)"
+                : "var(--theme-content)",
+              border: "1px solid var(--md-sys-color-outline-variant)",
             }}
           >
             <PaletteIcon className="w-3 h-3" />
-            {showColorPreview ? 'Hide' : 'Preview'}
+            {showColorPreview ? "Hide" : "Preview"}
           </button>
         </div>
-        
+
         {showColorPreview ? (
-          <ColorPreviewGrid 
+          <ColorPreviewGrid
             onMoodSelect={(mood) => {
               onMoodChange(mood);
               setShowColorPreview(false);
@@ -117,7 +151,9 @@ export default function ControlsPanel({
             {MOODS.map((mood) => (
               <button
                 key={mood.id}
-                className={`mood-chip ${selectedMood === mood.id ? 'active' : ''}`}
+                className={`mood-chip ${
+                  selectedMood === mood.id ? "active" : ""
+                }`}
                 onClick={() => onMoodChange(mood.id)}
                 title={mood.description}
               >
@@ -131,11 +167,16 @@ export default function ControlsPanel({
       {/* Border Style Selection */}
       <div className="control-section">
         <label className="control-label">Border Style</label>
-        <div className="border-select" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+        <div
+          className="border-select"
+          style={{ gridTemplateColumns: "repeat(3, 1fr)" }}
+        >
           {BORDERS.map((border) => (
             <button
               key={border.id}
-              className={`font-option ${selectedBorder === border.id ? 'active' : ''}`}
+              className={`font-option ${
+                selectedBorder === border.id ? "active" : ""
+              }`}
               onClick={() => onBorderChange(border.id)}
             >
               <span className="text-lg block mb-1">{border.icon}</span>
@@ -152,7 +193,9 @@ export default function ControlsPanel({
           {FONTS.map((font) => (
             <button
               key={font.id}
-              className={`font-option ${selectedFont === font.id ? 'active' : ''}`}
+              className={`font-option ${
+                selectedFont === font.id ? "active" : ""
+              }`}
               onClick={() => onFontChange(font.id)}
               style={{ fontFamily: font.family }}
             >

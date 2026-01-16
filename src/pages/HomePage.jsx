@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import ControlsPanel from '../components/ControlsPanel';
 import BookPage from '../components/BookFrame';
 import { useMaterialTheme } from '../hooks/useMaterialTheme';
+import { useTheme } from '../hooks/useTheme';
 import { applyMoodToDocument } from '../utils/moodPresets';
 
 export default function HomePage() {
@@ -13,6 +14,7 @@ export default function HomePage() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   
   const { extractThemeFromImage, isLoading, getSwatches } = useMaterialTheme();
+  const { updateTheme } = useTheme();
 
   // Apply mood filter when mood changes
   useEffect(() => {
@@ -36,10 +38,13 @@ export default function HomePage() {
     const img = new Image();
     img.crossOrigin = 'anonymous';
     img.src = url;
-    img.onload = () => {
-      extractThemeFromImage(img);
+    img.onload = async () => {
+      await extractThemeFromImage(img);
+      // Update theme context with new swatches
+      const swatches = getSwatches();
+      updateTheme(swatches, url);
     };
-  }, [extractThemeFromImage]);
+  }, [extractThemeFromImage, getSwatches, updateTheme]);
 
   const swatches = getSwatches();
 
